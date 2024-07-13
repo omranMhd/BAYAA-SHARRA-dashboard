@@ -215,5 +215,7 @@
     "Are you sure you want to delete the photo": "هل انت متأكد من حذف الصورة",
     "delete": "حذف",
     "Add New Admin": "إضافة مدير جديد",
-    "Edit Admin Info": "تعديل معلومات المدير"
+    "Edit Admin Info": "تعديل معلومات المدير",
+    "Ad Owner": "صاحب الإعلان",
+    "Reason of rejection": "سبب الرفض"
 }

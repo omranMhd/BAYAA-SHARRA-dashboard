@@ -215,5 +215,7 @@
     "Are you sure you want to delete the photo": "Are you sure you want to delete the photo",
     "delete": "Delete",
     "Add New Admin": "Add New Admin",
-    "Edit Admin Info": "Edit Admin Info"
+    "Edit Admin Info": "Edit Admin Info",
+    "Ad Owner": "Ad Owner",
+    "Reason of rejection": "Reason of rejection"
 }

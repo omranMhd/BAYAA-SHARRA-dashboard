@@ -207,7 +207,8 @@ function AdDetails() {
               backgroundColor: theme.palette.DARK_BLUE_or_LIGHT_BLUE,
               borderRadius: "10px",
               display: "flex",
-              alignItems: "center",
+              alignItems: "start",
+              direction: i18n.language === "en" ? "ltr" : "rtl",
             }}
           >
             <Tooltip title={t("edit")} arrow>
@@ -228,11 +229,51 @@ function AdDetails() {
                 <Delete />
               </IconButton>
             </Tooltip>
-            <Typography>
-              Status : {adDetailsResponse?.data.data.status} , Fees paid :{" "}
-              {adDetailsResponse?.data.data.paidFor ? "Yes" : "No"}
-            </Typography>
-            <Typography></Typography>
+
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ mx: "5px" }}>
+                  {t("Paid for")} :
+                </Typography>
+                <Typography sx={{ mx: "5px" }}>
+                  {t(adDetailsResponse?.data.data.paidFor ? "YES" : "NO")}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ mx: "5px" }}>
+                  {t("Status")} :
+                </Typography>
+                <Typography sx={{ mx: "5px" }}>
+                  {t(adDetailsResponse?.data.data.status)}
+                </Typography>
+              </Box>
+              {adDetailsResponse?.data.data.status === "rejected" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h6" sx={{ mx: "5px" }}>
+                    {t("Reason of rejection")} :
+                  </Typography>
+
+                  <Typography sx={{ mx: "5px" }}>
+                    {adDetailsResponse?.data.data.rejectionReason}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
 
             <Dialog
               open={openEditDialog}
@@ -254,7 +295,7 @@ function AdDetails() {
                 {!adDetailsResponse?.data.data.paidFor && (
                   <FormControlLabel
                     control={<Checkbox />}
-                    label={t("Fees Piad")}
+                    label={t("Paid for")}
                     onChange={(e) => {
                       setAdvertisementIsPaidFor(e.target.checked);
                     }}
