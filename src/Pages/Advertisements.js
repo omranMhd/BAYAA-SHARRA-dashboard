@@ -23,6 +23,8 @@ import SearchInput from "../Components/SearchInput";
 import FilterDialog from "../Components/FilterDialog";
 import TuneIcon from "@mui/icons-material/Tune";
 import ShareAdvertisementsContext from "../Contexts/ShareAdvertisementsContext";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 
 function Advertisements() {
   const { t, i18n } = useTranslation();
@@ -227,6 +229,11 @@ function Advertisements() {
                   <StyledTableCell
                     align={i18n.language === "en" ? "left" : "right"}
                   >
+                    {t("Ad Owner")}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align={i18n.language === "en" ? "left" : "right"}
+                  >
                     {t("Title")}
                   </StyledTableCell>
                   <StyledTableCell
@@ -271,6 +278,28 @@ function Advertisements() {
                     key={ad.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align={i18n.language === "en" ? "left" : "right"}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Tooltip
+                          title={`${ad.user.firstName} ${ad.user.lastName}`}
+                          arrow
+                        >
+                          <Avatar
+                            alt="Remy Sharp"
+                            src={`http://127.0.0.1:8000/storage/${ad.user.image}`}
+                          />
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
                     <TableCell
                       component="th"
                       scope="row"
