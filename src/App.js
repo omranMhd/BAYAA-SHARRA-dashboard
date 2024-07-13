@@ -10,10 +10,12 @@ import lightObjectColors from "./Themes/light";
 import darkObjectColors from "./Themes/dark";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import ShareAdvertisementsContext from "./Contexts/ShareAdvertisementsContext";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const [ads, setAds] = useState([]);
   const [mode, setMode] = useState(
     localStorage.getItem("themeMode") == null
       ? "light"
@@ -60,10 +62,12 @@ function App() {
         <CssBaseline />
         {/*this provider to send "setMode method to MainAppBar component to use it to change mode*/}
         <ThemeContext.Provider value={{ mode, setMode }}>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools />
-          </QueryClientProvider>
+          <ShareAdvertisementsContext.Provider value={{ ads, setAds }}>
+            <QueryClientProvider client={queryClient}>
+              <RouterProvider router={router} />
+              <ReactQueryDevtools />
+            </QueryClientProvider>
+          </ShareAdvertisementsContext.Provider>
         </ThemeContext.Provider>
       </ThemeProvider>
     </>

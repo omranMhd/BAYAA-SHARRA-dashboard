@@ -1,11 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../Pages/Login";
+import Home from "../Pages/Home";
+import HomeTest from "../Pages/HomeTest";
+import Statistics from "../Pages/Statistics";
+import Users from "../Pages/Users";
+import Advertisements from "../Pages/Advertisements";
+import AdDetails from "../Pages/AdDetails";
+import Complaints from "../Pages/Complaints";
+import ImageManager from "../Pages/ImageManager";
+import ProtectedRoute from "../Components/ProtectedRoute";
 
 //we can create routes using array of objects
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <div>Home</div>,
+    element: (
+      <ProtectedRoute userShouldBe="logedin">
+        <Home />
+        {/* <HomeTest /> */}
+      </ProtectedRoute>
+    ),
     loader: async ({ request, params }) => {
       // return fetch(`/fake/api/teams/${params.teamId}.json`, {
       //   signal: request.signal,
@@ -14,6 +28,35 @@ const routes = createBrowserRouter([
       console.log(params);
       return "this from loader function";
     },
+    children: [
+      {
+        //احصائيات
+        path: "statistics",
+        element: <Statistics />,
+        index: true,
+      },
+      {
+        path: "users",
+        element: <Users />,
+        index: true,
+      },
+      {
+        path: "advertisements",
+        element: <Advertisements />,
+      },
+      {
+        path: "ad-details/:adId",
+        element: <AdDetails />,
+      },
+      {
+        path: "complaints",
+        element: <Complaints />,
+      },
+      {
+        path: "image-manager",
+        element: <ImageManager />,
+      },
+    ],
   },
   {
     path: "/login",

@@ -67,18 +67,6 @@ export default function SignIn() {
         // Handle any errors here
         console.error("onError", error);
 
-        // if account is unverified
-        if (error.response.status === 423) {
-          //save response data (user info and its token ) in local Storage to use it by user to verify his account
-          localStorage.setItem(
-            "user",
-            JSON.stringify(error.response.data.data.user)
-          );
-          localStorage.setItem("token", error.response.data.data.token);
-
-          // Then Go To Verevication Code
-          navigate("/verevication-code");
-        }
         // if credentials is Invalid (email-phone or password)
         if (
           error.response.status === 401 &&
@@ -335,13 +323,6 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </Grid> */}
-              <Grid item>
-                <Link to="/register" variant="body2">
-                  <Box color={theme.palette.BLACK_or_WHITE}>
-                    {t("Don't have an account? Sign Up")}
-                  </Box>
-                </Link>
-              </Grid>
             </Grid>
             <DevTool control={control} />
           </Box>
