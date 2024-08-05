@@ -143,7 +143,7 @@ function convertNewAdData(data) {
       if (data.sellOrRent === "rent")
         filterFields.paymentMethodRent = data.paymentMethodRent;
     }
-  } else if (data.category === "Electrical Electronic Devices") {
+  } else if (data.category === "Devices") {
     advertisement.category = data.subCategory;
     if (data.subCategory === "Mobile" || data.subCategory === "Tablet") {
       filterFields.price = data.price;
@@ -343,7 +343,7 @@ function convertFilterData(data) {
       filterObject.currency = data.currency;
     }
   }
-  if (data.category === "Electrical Electronic Devices") {
+  if (data.category === "Devices") {
     filterObject.category = data.subCategory;
     filterObject.priceFrom = data.priceFrom;
     filterObject.priceTo = data.priceTo;
