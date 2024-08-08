@@ -151,7 +151,7 @@ export default function SignIn() {
           // backgroundImage: "url(realEstates‬.jpg)", // Set the background image
           // backgroundImage: "url('hand shake.gif')", // Set the background image
           // backgroundImage: "url(https://source.unsplash.com/random?wallpapers)", // Set the background image
-          backgroundImage: "url(/login.png)", // Set the background image
+          backgroundImage: "url(/login.jpg)", // Set the background image
           backgroundSize: "cover", // Cover the entire Box with the image
           backgroundPosition: "center", // Center the image within the Box
           display: "flex",
