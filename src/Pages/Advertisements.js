@@ -25,11 +25,18 @@ import TuneIcon from "@mui/icons-material/Tune";
 import ShareAdvertisementsContext from "../Contexts/ShareAdvertisementsContext";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Advertisements() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+  const [openDeleteAdDialog, setOpenDeleteAdDialog] = useState(false);
+  const [deletedAdId, setDeletedAdId] = useState(null);
   const { ads, setAds } = useContext(ShareAdvertisementsContext);
   const [openFilterDialog, setOpenFilterDialog] = useState(false);
 
@@ -96,6 +103,8 @@ function Advertisements() {
 
         // refetchallAdvertisements();
         getAllAdvertisementsMutation.mutate();
+        setDeletedAdId(null);
+        setOpenDeleteAdDialog(false);
       },
       onError: (error) => {
         // Handle any errors here
@@ -352,7 +361,9 @@ function Advertisements() {
                       <IconButton
                         id={ad.id}
                         onClick={() => {
-                          deleteAdvertisementMutation.mutate(ad.id);
+                          setDeletedAdId(ad.id);
+                          setOpenDeleteAdDialog(true);
+                          // deleteAdvertisementMutation.mutate(ad.id);
                         }}
                       >
                         <DeleteOutlineIcon
@@ -374,6 +385,52 @@ function Advertisements() {
               </TableBody>
             </Table>
           </Box>
+          {/* تأكيد حذف إعلان  */}
+          <Dialog
+            open={openDeleteAdDialog}
+            onClose={() => {
+              setOpenDeleteAdDialog(false);
+              setDeletedAdId(null);
+            }}
+            sx={{
+              direction: i18n.language === "en" ? "ltr" : "rtl",
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {t("Are you sure you want to delete this Ad")}
+            </DialogTitle>
+
+            <DialogActions>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setOpenDeleteAdDialog(false);
+                  setDeletedAdId(null);
+                }}
+              >
+                {t("Skip")}
+              </Button>
+              <Button
+                disabled={deleteAdvertisementMutation.isLoading}
+                variant="contained"
+                onClick={() => {
+                  // alert(deletedCommentId);
+                  deleteAdvertisementMutation.mutate(deletedAdId);
+                }}
+                autoFocus
+              >
+                {deleteAdvertisementMutation.isLoading ? (
+                  <CircularProgress size={25} style={{ color: "white" }} />
+                ) : (
+                  t("delete")
+                )}
+              </Button>
+            </DialogActions>
+          </Dialog>
         </>
       )}
     </>

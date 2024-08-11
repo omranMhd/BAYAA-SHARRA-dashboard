@@ -217,5 +217,8 @@
     "Add New Admin": "إضافة مدير جديد",
     "Edit Admin Info": "تعديل معلومات المدير",
     "Ad Owner": "صاحب الإعلان",
-    "Reason of rejection": "سبب الرفض"
+    "Reason of rejection": "سبب الرفض",
+    "Are you sure you want to delete this user": "هل متأكد من حذف حساب هذا المستخدم",
+    "Are you sure you want to delete this Ad": "هل تريد حذف هذا الإعلان بالفعل؟",
+    "Are you sure you want to delete this Complaint": "هل متأكد من حذف هذه الشكوى"
 }

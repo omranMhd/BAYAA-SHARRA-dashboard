@@ -21,11 +21,19 @@ import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import moment from "moment";
-
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 function Complaints() {
   const [complaints, setComplaints] = useState([]);
   const theme = useTheme();
+  const [openDeleteComplaintDialog, setOpenDeleteComplaintDialog] =
+    useState(false);
+  const [deletedComplaintId, setDeletedComplaintId] = useState(null);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -71,6 +79,8 @@ function Complaints() {
         // queryClient.invalidateQueries("advertisement-comments");
 
         refetchAllComplaints();
+        setDeletedComplaintId(null);
+        setOpenDeleteComplaintDialog(false);
       },
       onError: (error) => {
         // Handle any errors here
@@ -257,7 +267,9 @@ function Complaints() {
                   <TableCell align="">
                     <IconButton
                       onClick={() => {
-                        deleteComplaint.mutate(complaint.id);
+                        // deleteComplaint.mutate(complaint.id);
+                        setDeletedComplaintId(complaint.id);
+                        setOpenDeleteComplaintDialog(true);
                       }}
                     >
                       <DeleteOutlineIcon
@@ -273,6 +285,52 @@ function Complaints() {
           </Table>
         </Box>
       )}
+      {/* تأكيد حذف شكوى  */}
+      <Dialog
+        open={openDeleteComplaintDialog}
+        onClose={() => {
+          setOpenDeleteComplaintDialog(false);
+          setDeletedComplaintId(null);
+        }}
+        sx={{
+          direction: i18n.language === "en" ? "ltr" : "rtl",
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {t("Are you sure you want to delete this Complaint")}
+        </DialogTitle>
+
+        <DialogActions>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setOpenDeleteComplaintDialog(false);
+              setDeletedComplaintId(null);
+            }}
+          >
+            {t("Skip")}
+          </Button>
+          <Button
+            disabled={deleteComplaint.isLoading}
+            variant="contained"
+            onClick={() => {
+              // alert(deletedCommentId);
+              deleteComplaint.mutate(deletedComplaintId);
+            }}
+            autoFocus
+          >
+            {deleteComplaint.isLoading ? (
+              <CircularProgress size={25} style={{ color: "white" }} />
+            ) : (
+              t("delete")
+            )}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

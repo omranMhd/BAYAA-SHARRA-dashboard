@@ -40,6 +40,10 @@ import EditIcon from "@mui/icons-material/Edit";
 
 function Users() {
   const [users, setUsers] = useState([]);
+
+  const [openDeleteUserDialog, setOpenDeleteUserDialog] = useState(false);
+  const [deletedUserId, setDeletedUserId] = useState(null);
+
   const [openNewAdminForm, setOpenNewAdminForm] = useState(false);
   const [openEditAdminForm, setOpenEditAdminForm] = useState(false);
   //هون اقوم بتخزين معلومات الأدمن يلي بدي اعدلوا معلوماتو
@@ -147,6 +151,8 @@ function Users() {
         // Handle the response data here
         console.log("onSuccess response", response);
         // queryClient.invalidateQueries("advertisement-comments");
+        setOpenDeleteUserDialog(false);
+        setDeletedUserId(null);
 
         refetchUsers();
       },
@@ -948,7 +954,9 @@ function Users() {
                   <TableCell align="">
                     <IconButton
                       onClick={() => {
-                        deleteUser.mutate(user.id);
+                        setOpenDeleteUserDialog(true);
+                        setDeletedUserId(user.id);
+                        // deleteUser.mutate(user.id);
                       }}
                     >
                       <DeleteOutlineIcon
@@ -1017,6 +1025,52 @@ function Users() {
               ))}
             </TableBody>
           </Table>
+          {/* تأكيد حذف حساب مستخدم  */}
+          <Dialog
+            open={openDeleteUserDialog}
+            onClose={() => {
+              setOpenDeleteUserDialog(false);
+              setDeletedUserId(null);
+            }}
+            sx={{
+              direction: i18n.language === "en" ? "ltr" : "rtl",
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {t("Are you sure you want to delete this user")}
+            </DialogTitle>
+
+            <DialogActions>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setOpenDeleteUserDialog(false);
+                  setDeletedUserId(null);
+                }}
+              >
+                {t("Skip")}
+              </Button>
+              <Button
+                disabled={deleteUser.isLoading}
+                variant="contained"
+                onClick={() => {
+                  // alert(deletedCommentId);
+                  deleteUser.mutate(deletedUserId);
+                }}
+                autoFocus
+              >
+                {deleteUser.isLoading ? (
+                  <CircularProgress size={25} style={{ color: "white" }} />
+                ) : (
+                  t("delete")
+                )}
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       )}
     </>
